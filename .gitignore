@@ -1,0 +1,5 @@
+
+*.vsidx
+ConsoleApp1/.vs/ConsoleApp1/v17/.suo
+ConsoleApp1/.vs/ConsoleApp1/v17/.wsuo
+*.sqlite
