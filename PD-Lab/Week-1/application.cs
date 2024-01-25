@@ -8,9 +8,9 @@ namespace business
     {
         // global vars
         public static string file_path = "D:\\c# files\\business\\data.txt";   // path where data stored
-        public const int size = 100; // size of array
         static void Main(string[] args)
         {
+            const int size = 100; // size of array
             // data structs
             string[] user_names = new string[size];
             string[] user_passwords = new string[size];
