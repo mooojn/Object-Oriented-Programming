@@ -8,8 +8,16 @@ namespace game_conv
 {
     internal class enemy_class
     {
-        public char enemy_symbol = 'E';
-        public int enemy_x = 5;
-        public int enemy_y = 5;
+        // data struct for enemy
+        public char enemy_symbol;
+        public int enemy_x;
+        public int enemy_y;
+        // initializing vals
+        public enemy_class(char symbol, int x_axis, int y_axis)
+        {
+            enemy_symbol = symbol;
+            enemy_x = x_axis;
+            enemy_y = y_axis;
+        }
     }
 }
