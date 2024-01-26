@@ -64,23 +64,6 @@ namespace ConsoleApp5
                     move_object_vertically(ref enemy_move, ref enemys[i].enemy_y);
                     print_object(enemys[i].enemy_symbol, enemys[i].enemy_x, enemys[i].enemy_y);
                 }
-
-                //////// PREV ENEMY MOVEMENT CODE ////////
-                // Random rand = new Random();  // creating object of random number
-                // int movePos = rand.Next(0, 2);  // b/w 0, 1
-                // if (movePos == 0)
-                // {
-                //     erase_object(eX, eY);
-                //     move_enemy_horizontally("left", ref eX);
-                //     print_enemy(eX, eY);
-                // }
-                // else if (movePos == 1)
-                // {
-                //     erase_object(eX, eY);
-                //     move_enemy_horizontally("right", ref eX);
-                //     print_enemy(eX, eY);
-                // }
-
                 Thread.Sleep(100);
             }
         }
