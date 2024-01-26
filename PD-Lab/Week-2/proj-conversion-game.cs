@@ -17,14 +17,15 @@ namespace ConsoleApp5
 
             const int enemy_count = 3;   // enemy count
             enemy_class[] enemys = new enemy_class[3];
-            enemys[0] = new enemy_class('A', 10, 10);
-            enemys[1] = new enemy_class('B', 20, 10);
-            enemys[2] = new enemy_class('C', 30, 10);
-            
+            enemys[0] = new enemy_class('A', 15, 10);
+            enemys[1] = new enemy_class('B', 25, 10);
+            enemys[2] = new enemy_class('C', 35, 10);
+
             // printing objects on screen
             maze();
             print_object(Player.player_symbol, Player.player_x, Player.player_y);
-            
+            for (int i = 0; i < enemy_count; i++)
+                print_object(enemys[i].enemy_symbol, enemys[i].enemy_x, enemys[i].enemy_y);
             // main game loop
             while (true)
             {
