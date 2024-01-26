@@ -13,7 +13,7 @@ namespace ConsoleApp5
 
         static void Main(string[] args)
         {
-            player_class Player = new player_class('P', 10, 2);  // init plyr start pos
+            player_class Player = new player_class('P', 3, 18);  // init plyr start pos
 
             const int enemy_count = 3;   // enemy count
             enemy_class[] enemys = new enemy_class[3];
@@ -24,6 +24,7 @@ namespace ConsoleApp5
             // printing objects on screen
             maze();
             print_object(Player.player_symbol, Player.player_x, Player.player_y);
+            // displaying 3 enemies
             for (int i = 0; i < enemy_count; i++)
                 print_object(enemys[i].enemy_symbol, enemys[i].enemy_x, enemys[i].enemy_y);
             // main game loop
@@ -53,6 +54,15 @@ namespace ConsoleApp5
                     move_player_vertically("down", ref Player.player_y);
                     print_object(Player.player_symbol, Player.player_x, Player.player_y);
                 }
+                // enemy movements
+                for (int i = 0; i < enemy_count; i++)
+                {
+                    erase_object(enemys[i].enemy_x, enemys[i].enemy_y);
+                    move_enemy_horizontally("left", ref enemys[i].enemy_x);
+                    print_object(enemys[i].enemy_symbol, enemys[i].enemy_x, enemys[i].enemy_y);
+                }
+
+                //////// PREV ENEMY MOVEMENT CODE ////////
                 // Random rand = new Random();  // creating object of random number
                 // int movePos = rand.Next(0, 2);  // b/w 0, 1
                 // if (movePos == 0)
