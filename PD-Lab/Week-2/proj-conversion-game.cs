@@ -20,7 +20,8 @@ namespace ConsoleApp5
             enemys[0] = new enemy_class('A', 15, 3);
             enemys[1] = new enemy_class('B', 25, 3);
             enemys[2] = new enemy_class('C', 35, 3);
-
+            string enemy_move = "down";  // enemy direction
+            string player_move = "";  // player direction
             // printing objects on screen
             maze();
             print_object(Player.player_symbol, Player.player_x, Player.player_y);
@@ -45,20 +46,22 @@ namespace ConsoleApp5
                 else if (Keyboard.IsKeyPressed(Key.UpArrow))
                 {
                     erase_object(Player.player_x, Player.player_y);
-                    move_object_vertically("up", ref Player.player_y);
+                    player_move = "up";
+                    move_object_vertically(ref player_move, ref Player.player_y);
                     print_object(Player.player_symbol, Player.player_x, Player.player_y);
                 }
                 else if (Keyboard.IsKeyPressed(Key.DownArrow))
                 {
                     erase_object(Player.player_x, Player.player_y);
-                    move_object_vertically("down", ref Player.player_y);
+                    player_move = "down";
+                    move_object_vertically(ref player_move, ref Player.player_y);
                     print_object(Player.player_symbol, Player.player_x, Player.player_y);
                 }
                 // enemy movements
                 for (int i = 0; i < enemy_count; i++)
                 {
                     erase_object(enemys[i].enemy_x, enemys[i].enemy_y);
-                    move_enemy_horizontally("left", ref enemys[i].enemy_x);
+                    move_object_vertically(ref enemy_move, ref enemys[i].enemy_y);
                     print_object(enemys[i].enemy_symbol, enemys[i].enemy_x, enemys[i].enemy_y);
                 }
 
@@ -89,12 +92,24 @@ namespace ConsoleApp5
                 x++;
             else return;  // error case
         }
-        static void move_object_vertically(string direction, ref int y)
+        static void move_object_vertically(ref string direction, ref int y)
         {
             if (direction == "up" && y > 1)
                 y--;
             else if (direction == "down" && y < maze_height)
                 y++;
+            // reversing dir as collision 
+            else if (y == maze_height)
+            {
+                direction = "up";
+                y--;
+            }
+            // reversing dir as collision 
+            else if (y == 1)
+            {
+                direction = "down";
+                y++;
+            }
             else return;  // error case
         }
         static void erase_object(int x, int y)
