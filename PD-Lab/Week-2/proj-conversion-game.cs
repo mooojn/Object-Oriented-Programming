@@ -1,6 +1,7 @@
 using System;
 using System.Threading;
 using EZInput;
+using game_conv;
 
 namespace ConsoleApp5
 {
@@ -12,54 +13,57 @@ namespace ConsoleApp5
 
         static void Main(string[] args)
         {
-            // initializing objects starting position
-            player_class player = new player_class('P', 10, 2);
-            enemy_class enemy = new enemy_class();
-            // printing maze, player, and enemy
+            const int enemy_count = 3;   // enemy count
+            player_class Player = new player_class('P', 10, 2);  // init plyr start pos
+            enemy_class[] enemys = new enemy_class[3];
+            enemys[0] = new enemy_class('A', 10, 10);
+            enemys[1] = new enemy_class('B', 20, 10);
+            enemys[2] = new enemy_class('C', 30, 10);
+            // printing maze, Player.player_y, and enemy
             maze();
-            print_player(pX, pY);
-            print_enemy(eX, eY);
+            print_player(Player.player_x, Player.player_y);
+            // print_enemy(eX, eY);
             // main game loop
             while (true)
             {
                 if (Keyboard.IsKeyPressed(Key.LeftArrow))
                 {
-                    erase_player(pX, pY);
-                    move_player_horizontally("left", ref pX);
-                    print_player(pX, pY);
+                    erase_player(Player.player_x, Player.player_y);
+                    move_player_horizontally("left", ref Player.player_x);
+                    print_player(Player.player_x, Player.player_y);
                 }
                 else if (Keyboard.IsKeyPressed(Key.RightArrow))
                 {
-                    erase_player(pX, pY);
-                    move_player_horizontally("right", ref pX);
-                    print_player(pX, pY);
+                    erase_player(Player.player_x, Player.player_y);
+                    move_player_horizontally("right", ref Player.player_x);
+                    print_player(Player.player_x, Player.player_y);
                 }
                 else if (Keyboard.IsKeyPressed(Key.UpArrow))
                 {
-                    erase_player(pX, pY);
-                    move_player_vertically("up", ref pY);
-                    print_player(pX, pY);
+                    erase_player(Player.player_x, Player.player_y);
+                    move_player_vertically("up", ref Player.player_y);
+                    print_player(Player.player_x, Player.player_y);
                 }
                 else if (Keyboard.IsKeyPressed(Key.DownArrow))
                 {
-                    erase_player(pX, pY);
-                    move_player_vertically("down", ref pY);
-                    print_player(pX, pY);
+                    erase_player(Player.player_x, Player.player_y);
+                    move_player_vertically("down", ref Player.player_y);
+                    print_player(Player.player_x, Player.player_y);
                 }
-                Random rand = new Random();  // creating object of random number
-                int movePos = rand.Next(0, 2);  // b/w 0, 1
-                if (movePos == 0)
-                {
-                    erase_player(eX, eY);
-                    move_enemy_horizontally("left", ref eX);
-                    print_enemy(eX, eY);
-                }
-                else if (movePos == 1)
-                {
-                    erase_player(eX, eY);
-                    move_enemy_horizontally("right", ref eX);
-                    print_enemy(eX, eY);
-                }
+                // Random rand = new Random();  // creating object of random number
+                // int movePos = rand.Next(0, 2);  // b/w 0, 1
+                // if (movePos == 0)
+                // {
+                //     erase_player(eX, eY);
+                //     move_enemy_horizontally("left", ref eX);
+                //     print_enemy(eX, eY);
+                // }
+                // else if (movePos == 1)
+                // {
+                //     erase_player(eX, eY);
+                //     move_enemy_horizontally("right", ref eX);
+                //     print_enemy(eX, eY);
+                // }
 
                 Thread.Sleep(100);
             }
@@ -85,31 +89,31 @@ namespace ConsoleApp5
             Console.SetCursorPosition(eX, eY);
             Console.Write("E");
         }
-        static void move_player_horizontally(string direction, ref int pX)
+        static void move_player_horizontally(string direction, ref int x)
         {
-            if (direction == "left" && pX > 1) // Check if moving left stays within the boundary
-                pX--;
-            else if (direction == "right" && pX < maze_width)
-                pX++;
+            if (direction == "left" && x > 1) // Check if moving left stays within the boundary
+                x--;
+            else if (direction == "right" && x < maze_width)
+                x++;
             else return;  // error case
         }
-        static void move_player_vertically(string direction, ref int pY)
+        static void move_player_vertically(string direction, ref int y)
         {
-            if (direction == "up" && pY > 1)
-                pY--;
-            else if (direction == "down" && pY < maze_height)
-                pY++;
+            if (direction == "up" && y > 1)
+                y--;
+            else if (direction == "down" && y < maze_height)
+                y++;
             else return;  // error case
         }
-        static void erase_player(int pX, int pY)
+        static void erase_player(int x, int y)
         {
-            Console.SetCursorPosition(pX, pY);
+            Console.SetCursorPosition(x, y);
             Console.Write(" ");
         }
 
-        static void print_player(int pX, int pY)
+        static void print_player(int x, int y)
         {
-            Console.SetCursorPosition(pX, pY);
+            Console.SetCursorPosition(x, y);
             Console.Write("P");
         }
 
