@@ -1,5 +1,4 @@
 using System;
-using System.Runtime.Remoting.Metadata.W3cXsd2001;
 using System.Threading;
 using EZInput;
 
@@ -7,15 +6,20 @@ namespace ConsoleApp5
 {
     class Program
     {
+        // maze dimensions
         static int maze_width = 52;
         static int maze_height = 19;
 
         static void Main(string[] args)
         {
-            int pX = 10, pY = 2;
+            // initializing objects starting position
+            player_class player = new player_class('P', 10, 2);
+            enemy_class enemy = new enemy_class();
+            // printing maze, player, and enemy
             maze();
             print_player(pX, pY);
-
+            print_enemy(eX, eY);
+            // main game loop
             while (true)
             {
                 if (Keyboard.IsKeyPressed(Key.LeftArrow))
@@ -42,8 +46,44 @@ namespace ConsoleApp5
                     move_player_vertically("down", ref pY);
                     print_player(pX, pY);
                 }
+                Random rand = new Random();  // creating object of random number
+                int movePos = rand.Next(0, 2);  // b/w 0, 1
+                if (movePos == 0)
+                {
+                    erase_player(eX, eY);
+                    move_enemy_horizontally("left", ref eX);
+                    print_enemy(eX, eY);
+                }
+                else if (movePos == 1)
+                {
+                    erase_player(eX, eY);
+                    move_enemy_horizontally("right", ref eX);
+                    print_enemy(eX, eY);
+                }
+
                 Thread.Sleep(100);
             }
+        }
+        static void move_enemy_horizontally(string dir, ref int eX)
+        {
+            if (dir == "left" && eX > 1)  // collision from left
+            {
+                eX--;
+            }
+            else if (dir == "right" && eX < maze_width)  // collision from right
+            {
+                eX++;
+            }
+        }
+        static void erase_enemy(int eX, int eY)
+        {
+            Console.SetCursorPosition(eX, eY);
+            Console.Write(" ");
+        }
+        static void print_enemy(int eX, int eY)
+        {
+            Console.SetCursorPosition(eX, eY);
+            Console.Write("E");
         }
         static void move_player_horizontally(string direction, ref int pX)
         {
@@ -66,11 +106,13 @@ namespace ConsoleApp5
             Console.SetCursorPosition(pX, pY);
             Console.Write(" ");
         }
+
         static void print_player(int pX, int pY)
         {
             Console.SetCursorPosition(pX, pY);
             Console.Write("P");
         }
+
         static void maze()
         {
             Console.Clear();
