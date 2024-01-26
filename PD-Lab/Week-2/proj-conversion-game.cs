@@ -14,14 +14,16 @@ namespace ConsoleApp5
         static void Main(string[] args)
         {
             player_class Player = new player_class('P', 3, 18);  // init plyr start pos
+            string player_move = "";  // player direction
 
             const int enemy_count = 3;   // enemy count
             enemy_class[] enemys = new enemy_class[enemy_count];
+
             enemys[0] = new enemy_class('A', 15, 3);
             enemys[1] = new enemy_class('B', 25, 3);
             enemys[2] = new enemy_class('C', 35, 3);
+
             string enemy_move = "down";  // enemy direction
-            string player_move = "";  // player direction
             // printing objects on screen
             maze();
             print_object(Player.player_symbol, Player.player_x, Player.player_y);
@@ -97,16 +99,16 @@ namespace ConsoleApp5
         }
         static void erase_object(int x, int y)
         {
+            // removes the object from the screen
             Console.SetCursorPosition(x, y);
             Console.Write(" ");
         }
-
         static void print_object(char symbol, int x, int y)
         {
+            // prints the object on the screen
             Console.SetCursorPosition(x, y);
             Console.Write(symbol);
         }
-
         static void maze()
         {
             Console.Clear();
