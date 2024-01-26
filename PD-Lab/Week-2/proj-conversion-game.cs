@@ -13,54 +13,56 @@ namespace ConsoleApp5
 
         static void Main(string[] args)
         {
-            const int enemy_count = 3;   // enemy count
             player_class Player = new player_class('P', 10, 2);  // init plyr start pos
+
+            const int enemy_count = 3;   // enemy count
             enemy_class[] enemys = new enemy_class[3];
             enemys[0] = new enemy_class('A', 10, 10);
             enemys[1] = new enemy_class('B', 20, 10);
             enemys[2] = new enemy_class('C', 30, 10);
-            // printing maze, Player.player_y, and enemy
+            
+            // printing objects on screen
             maze();
-            print_player(Player.player_x, Player.player_y);
-            // print_enemy(eX, eY);
+            print_object(Player.player_symbol, Player.player_x, Player.player_y);
+            
             // main game loop
             while (true)
             {
                 if (Keyboard.IsKeyPressed(Key.LeftArrow))
                 {
-                    erase_player(Player.player_x, Player.player_y);
+                    erase_object(Player.player_x, Player.player_y);
                     move_player_horizontally("left", ref Player.player_x);
-                    print_player(Player.player_x, Player.player_y);
+                    print_object(Player.player_symbol, Player.player_x, Player.player_y);
                 }
                 else if (Keyboard.IsKeyPressed(Key.RightArrow))
                 {
-                    erase_player(Player.player_x, Player.player_y);
+                    erase_object(Player.player_x, Player.player_y);
                     move_player_horizontally("right", ref Player.player_x);
-                    print_player(Player.player_x, Player.player_y);
+                    print_object(Player.player_symbol, Player.player_x, Player.player_y);
                 }
                 else if (Keyboard.IsKeyPressed(Key.UpArrow))
                 {
-                    erase_player(Player.player_x, Player.player_y);
+                    erase_object(Player.player_x, Player.player_y);
                     move_player_vertically("up", ref Player.player_y);
-                    print_player(Player.player_x, Player.player_y);
+                    print_object(Player.player_symbol, Player.player_x, Player.player_y);
                 }
                 else if (Keyboard.IsKeyPressed(Key.DownArrow))
                 {
-                    erase_player(Player.player_x, Player.player_y);
+                    erase_object(Player.player_x, Player.player_y);
                     move_player_vertically("down", ref Player.player_y);
-                    print_player(Player.player_x, Player.player_y);
+                    print_object(Player.player_symbol, Player.player_x, Player.player_y);
                 }
                 // Random rand = new Random();  // creating object of random number
                 // int movePos = rand.Next(0, 2);  // b/w 0, 1
                 // if (movePos == 0)
                 // {
-                //     erase_player(eX, eY);
+                //     erase_object(eX, eY);
                 //     move_enemy_horizontally("left", ref eX);
                 //     print_enemy(eX, eY);
                 // }
                 // else if (movePos == 1)
                 // {
-                //     erase_player(eX, eY);
+                //     erase_object(eX, eY);
                 //     move_enemy_horizontally("right", ref eX);
                 //     print_enemy(eX, eY);
                 // }
@@ -105,16 +107,16 @@ namespace ConsoleApp5
                 y++;
             else return;  // error case
         }
-        static void erase_player(int x, int y)
+        static void erase_object(int x, int y)
         {
             Console.SetCursorPosition(x, y);
             Console.Write(" ");
         }
 
-        static void print_player(int x, int y)
+        static void print_object(char symbol, int x, int y)
         {
             Console.SetCursorPosition(x, y);
-            Console.Write("P");
+            Console.Write(symbol);
         }
 
         static void maze()
