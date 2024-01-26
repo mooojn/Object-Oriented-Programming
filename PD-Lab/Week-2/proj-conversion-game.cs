@@ -16,10 +16,10 @@ namespace ConsoleApp5
             player_class Player = new player_class('P', 3, 18);  // init plyr start pos
 
             const int enemy_count = 3;   // enemy count
-            enemy_class[] enemys = new enemy_class[3];
-            enemys[0] = new enemy_class('A', 15, 10);
-            enemys[1] = new enemy_class('B', 25, 10);
-            enemys[2] = new enemy_class('C', 35, 10);
+            enemy_class[] enemys = new enemy_class[enemy_count];
+            enemys[0] = new enemy_class('A', 15, 3);
+            enemys[1] = new enemy_class('B', 25, 3);
+            enemys[2] = new enemy_class('C', 35, 3);
 
             // printing objects on screen
             maze();
@@ -33,25 +33,25 @@ namespace ConsoleApp5
                 if (Keyboard.IsKeyPressed(Key.LeftArrow))
                 {
                     erase_object(Player.player_x, Player.player_y);
-                    move_player_horizontally("left", ref Player.player_x);
+                    move_object_horizontally("left", ref Player.player_x);
                     print_object(Player.player_symbol, Player.player_x, Player.player_y);
                 }
                 else if (Keyboard.IsKeyPressed(Key.RightArrow))
                 {
                     erase_object(Player.player_x, Player.player_y);
-                    move_player_horizontally("right", ref Player.player_x);
+                    move_object_horizontally("right", ref Player.player_x);
                     print_object(Player.player_symbol, Player.player_x, Player.player_y);
                 }
                 else if (Keyboard.IsKeyPressed(Key.UpArrow))
                 {
                     erase_object(Player.player_x, Player.player_y);
-                    move_player_vertically("up", ref Player.player_y);
+                    move_object_vertically("up", ref Player.player_y);
                     print_object(Player.player_symbol, Player.player_x, Player.player_y);
                 }
                 else if (Keyboard.IsKeyPressed(Key.DownArrow))
                 {
                     erase_object(Player.player_x, Player.player_y);
-                    move_player_vertically("down", ref Player.player_y);
+                    move_object_vertically("down", ref Player.player_y);
                     print_object(Player.player_symbol, Player.player_x, Player.player_y);
                 }
                 // enemy movements
@@ -81,28 +81,7 @@ namespace ConsoleApp5
                 Thread.Sleep(100);
             }
         }
-        static void move_enemy_horizontally(string dir, ref int eX)
-        {
-            if (dir == "left" && eX > 1)  // collision from left
-            {
-                eX--;
-            }
-            else if (dir == "right" && eX < maze_width)  // collision from right
-            {
-                eX++;
-            }
-        }
-        static void erase_enemy(int eX, int eY)
-        {
-            Console.SetCursorPosition(eX, eY);
-            Console.Write(" ");
-        }
-        static void print_enemy(int eX, int eY)
-        {
-            Console.SetCursorPosition(eX, eY);
-            Console.Write("E");
-        }
-        static void move_player_horizontally(string direction, ref int x)
+        static void move_object_horizontally(string direction, ref int x)
         {
             if (direction == "left" && x > 1) // Check if moving left stays within the boundary
                 x--;
@@ -110,7 +89,7 @@ namespace ConsoleApp5
                 x++;
             else return;  // error case
         }
-        static void move_player_vertically(string direction, ref int y)
+        static void move_object_vertically(string direction, ref int y)
         {
             if (direction == "up" && y > 1)
                 y--;
