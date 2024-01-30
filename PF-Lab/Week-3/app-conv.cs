@@ -77,14 +77,14 @@ namespace chlg3
                     {
                         // used to deposit cash
                         if (!transactions_blocked)  // not blocked calling the func 
-                        {  
+                        {
                             Console.Clear();
                             // input
                             Console.Write("Enter amount you want to deposit: $");
                             int deposit_amount = int.Parse(Console.ReadLine());
-                            
+
                             // validation
-                            bool deposit_status = deposit_cash_validation(user_data[current_user_index].cash_holdings);
+                            bool deposit_status = deposit_cash_validation(deposit_amount, user_data[current_user_index].cash_holdings);
                             if (deposit_status)
                                 user_data[current_user_index].addCash(deposit_amount);
                         }
@@ -99,9 +99,9 @@ namespace chlg3
                             // input
                             Console.Write("Enter the amount you want to withdraw: $");
                             int withdraw_amount = int.Parse(Console.ReadLine());
-                            
+
                             // used to withdraw cash
-                            bool withdraw_status = withdraw_cash(withdraw_amount, user_data[current_user_index].cash_holdings);
+                            bool withdraw_status = withdraw_cash_validation(withdraw_amount, user_data[current_user_index].cash_holdings);
                             if (withdraw_status)
                                 user_data[current_user_index].withdrawCash(withdraw_amount);
                         }
@@ -272,7 +272,7 @@ namespace chlg3
             Console.Clear();
             process();
             // shifting all the elements by one to right
-            for (int i = current_user_index; i < user_count; ++i)
+            for (int i = current_user_index; i < user_count-1; ++i)
             {
                 // moving elements
                 data[i].user_names = data[i + 1].user_names;
