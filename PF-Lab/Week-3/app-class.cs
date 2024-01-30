@@ -20,5 +20,17 @@ namespace chlg3
             user_passwords = userPass;
             cash_holdings = 0;  // default val
         }
+        public addCash(int cash)
+        {
+            cash_holdings += cash;
+        }
+        public withdrawCash(int cash)
+        {
+            cash_holdings -= cash;
+        }
+        public showCash()
+        {
+            Console.Write($"Your total cash holdings holding: ${cash_holdings}");
+        }
     }
 }
