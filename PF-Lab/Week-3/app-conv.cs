@@ -84,9 +84,13 @@ namespace chlg3
                             int deposit_amount = int.Parse(Console.ReadLine());
 
                             // validation
-                            bool deposit_status = deposit_cash_validation(deposit_amount, user_data[current_user_index].cash_holdings);
+                            bool deposit_status = user_data[current_user_index].addCash(deposit_amount);
+                            
+                            process();
                             if (deposit_status)
-                                user_data[current_user_index].addCash(deposit_amount);
+                                success("Cash Deposit was successful...");
+                            else
+                                error("Invalid amount");
                         }
                         else
                             error("Transactions are Blocked");
@@ -101,9 +105,13 @@ namespace chlg3
                             int withdraw_amount = int.Parse(Console.ReadLine());
 
                             // used to withdraw cash
-                            bool withdraw_status = withdraw_cash_validation(withdraw_amount, user_data[current_user_index].cash_holdings);
+                            bool withdraw_status = user_data[current_user_index].withdrawCash(withdraw_amount);
+                            
+                            process();
                             if (withdraw_status)
-                                user_data[current_user_index].withdrawCash(withdraw_amount);
+                                success("Cash Withdraw was successful...");
+                            else
+                                error("Invalid amount");
                         }
                         else
                             error("Transactions are Blocked");
@@ -234,31 +242,6 @@ namespace chlg3
             // getting input
             Console.Write("Enter your choice: ");
             return Console.ReadLine();
-        }
-        static bool deposit_cash_validation(int deposit_amount, int cash_holdings)
-        {
-            process();
-            // error case
-            if (deposit_amount < 0)
-            {
-                error("Invalid amount");
-                return false;  // error encountered so returning
-            }
-            // adding cash to the user's acc if no error encountered
-            success("Cash Deposit was successful...");
-            return true;
-        }
-        static bool withdraw_cash_validation(int withdraw_amount, int cash_holdings)
-        {
-            process();
-            if (withdraw_amount < 0 || withdraw_amount > cash_holdings)
-            {
-                error("Invalid Amount");
-                return false;  // error encountered so returning
-            }
-            // removing cash to the user's acc if no error encountered
-            success("Cash withdrawal was successful.");
-            return true;
         }
         static bool block_transactions(bool transactions_blocked)
         {
