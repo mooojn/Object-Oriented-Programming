@@ -20,13 +20,23 @@ namespace chlg3
             user_passwords = userPass;
             cash_holdings = 0;  // default val
         }
-        public void addCash(int cash)
+        public bool addCash(int cash)
         {
+            // error encountered so returning
+            if (cash < 0)
+                return false;
+            // adding cash
             cash_holdings += cash;
+            return true;
         }
-        public void withdrawCash(int cash)
+        public bool withdrawCash(int cash)
         {
+            // error encountered so returning
+            if (withdraw_amount < 0 || withdraw_amount > cash_holdings)
+                return false;  
+            // withdrawing cash
             cash_holdings -= cash;
+            return true;
         }
         public void showCash()
         {
