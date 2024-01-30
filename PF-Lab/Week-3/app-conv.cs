@@ -86,11 +86,7 @@ namespace chlg3
                             // validation
                             bool deposit_status = user_data[current_user_index].addCash(deposit_amount);
                             
-                            process();
-                            if (deposit_status)
-                                success("Cash Deposit was successful...");
-                            else
-                                error("Invalid amount");
+                            showMSG(deposit_status);
                         }
                         else
                             error("Transactions are Blocked");
@@ -107,11 +103,7 @@ namespace chlg3
                             // used to withdraw cash
                             bool withdraw_status = user_data[current_user_index].withdrawCash(withdraw_amount);
                             
-                            process();
-                            if (withdraw_status)
-                                success("Cash Withdraw was successful...");
-                            else
-                                error("Invalid amount");
+                            showMSG(withdraw_status);
                         }
                         else
                             error("Transactions are Blocked");
@@ -180,6 +172,14 @@ namespace chlg3
                 }
             }
             Console.Read(); // for program to display output
+        }
+        static void showMSG(bool status)
+        {
+            process();
+            if (status)
+                success("Successfull...");
+            else
+                error("Invalid amount");
         }
         static bool sign_in_admin(string admin_pass)
         {
