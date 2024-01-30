@@ -69,23 +69,42 @@ namespace chlg3
                     if (user_choice == "1")
                     {
                         // displays the cash holdings of current-user
-                        check_portfolio(user_data[current_user_index].cash_holdings, current_user_index);
+                        Console.Clear();
+                        user_data[current_user_index].showCash();
+                        press_any_key();
                     }
                     else if (user_choice == "2")
                     {
-                        Console.Clear();
                         // used to deposit cash
-                        if (!transactions_blocked)  // not blocked calling the func
-                            user_data[current_user_index].cash_holdings = deposit_cash(user_data[current_user_index].cash_holdings, current_user_index);
+                        if (!transactions_blocked)  // not blocked calling the func 
+                        {  
+                            Console.Clear();
+                            // input
+                            Console.Write("Enter amount you want to deposit: $");
+                            int deposit_amount = int.Parse(Console.ReadLine());
+                            
+                            // validation
+                            bool deposit_status = deposit_cash_validation(user_data[current_user_index].cash_holdings);
+                            if (deposit_status)
+                                user_data[current_user_index].addCash(deposit_amount);
+                        }
                         else
                             error("Transactions are Blocked");
                     }
                     else if (user_choice == "3")
                     {
-                        Console.Clear();
-                        // used to withdraw cash
-                        if (!transactions_blocked)  // not blocked calling the func
-                            user_data[current_user_index].cash_holdings = withdraw_cash(user_data[current_user_index].cash_holdings, current_user_index);
+                        if (!transactions_blocked)    // not blocked calling the func
+                        {
+                            Console.Clear();
+                            // input
+                            Console.Write("Enter the amount you want to withdraw: $");
+                            int withdraw_amount = int.Parse(Console.ReadLine());
+                            
+                            // used to withdraw cash
+                            bool withdraw_status = withdraw_cash(withdraw_amount, user_data[current_user_index].cash_holdings);
+                            if (withdraw_status)
+                                user_data[current_user_index].withdrawCash(withdraw_amount);
+                        }
                         else
                             error("Transactions are Blocked");
                     }
@@ -131,9 +150,8 @@ namespace chlg3
                         int index = int.Parse(Console.ReadLine());
                         // getting the new name
                         Console.Write("Enter the new name: ");
-                        string new_name = Console.ReadLine();
                         // changing the name
-                        user_data[index].user_names = new_name;
+                        user_data[index].user_names = Console.ReadLine();
                         success("Changed successfully...");
                     }
                     else if (admin_choice == "4")
@@ -217,45 +235,30 @@ namespace chlg3
             Console.Write("Enter your choice: ");
             return Console.ReadLine();
         }
-        static void check_portfolio(int cash_holdings, int current_user_index)
+        static bool deposit_cash_validation(int deposit_amount, int cash_holdings)
         {
-            Console.Clear();
-            Console.Write($"Your total cash holdings holding: ${cash_holdings}");
-            press_any_key();
-        }
-        static int deposit_cash(int cash_holdings, int current_user_index)
-        {
-            Console.Clear();
-            // input
-            Console.Write("Enter amount you want to deposit: $");
-            int deposit_amount = int.Parse(Console.ReadLine());
-
             process();
             // error case
             if (deposit_amount < 0)
             {
                 error("Invalid amount");
-                return 0;  // error encountered so returning
+                return false;  // error encountered so returning
             }
             // adding cash to the user's acc if no error encountered
             success("Cash Deposit was successful...");
-            return cash_holdings += deposit_amount;
+            return true;
         }
-        static int withdraw_cash(int cash_holdings, int current_user_index)
+        static bool withdraw_cash_validation(int withdraw_amount, int cash_holdings)
         {
-            Console.Write("Enter the amount you want to withdraw: $");
-            int withdraw_amount = int.Parse(Console.ReadLine());
-
             process();
             if (withdraw_amount < 0 || withdraw_amount > cash_holdings)
             {
                 error("Invalid Amount");
-                return 0;  // error encountered so returning
+                return false;  // error encountered so returning
             }
             // removing cash to the user's acc if no error encountered
             success("Cash withdrawal was successful.");
-            cash_holdings -= withdraw_amount;
-            return cash_holdings;
+            return true;
         }
         static bool block_transactions(bool transactions_blocked)
         {
