@@ -8,11 +8,14 @@ namespace chlng1_new_pf
 {
     internal class Program
     {
+        public static string productsDataPath = "productsData.csv";
+
         public static bool AdminLogin;
         public static bool CustomerLogin;
         public static int index;       // index of user who log in
         static void Main(string[] args)
         {
+            ProductCrud.LoadProductsFrom(productsDataPath);
         Logout:  // user logs out
             
             // vals reset
@@ -88,6 +91,7 @@ namespace chlng1_new_pf
                 }
                 else if (mainChoice == "3")
                 {
+                    ProductCrud.StoreProductsTo(productsDataPath);
                     return;
                 }
                 if (AdminLogin || CustomerLogin)
