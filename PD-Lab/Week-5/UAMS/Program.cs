@@ -9,10 +9,20 @@ namespace chlng4_new
 {
     internal class Program
     {
+        // data paths
+        public static string subjectDataPath = "subjectsData.csv";
+        public static string DegreeDataPath = "degreesData.csv";
+        public static string studentDataPath = "studentsData.csv";
         // main method
         static void Main(string[] args)
         {
+            // loading data from files
+            SubjectCrud.LoadSubjectsFrom(subjectDataPath);
+            DegreeCrud.LoaDegreesFrom(DegreeDataPath);
+            StudentCrud.LoadStudentsFrom(studentDataPath);
+            
             string option = "";
+            
             // main loop
             while (true)
             {
@@ -66,6 +76,10 @@ namespace chlng4_new
                 }
                 else if (option == "8")
                 {
+                    // saving data to files
+                    SubjectCrud.StoreSubjectsTo(subjectDataPath);
+                    DegreeCrud.StoreDegreesTo(DegreeDataPath);
+                    StudentCrud.StoreStudentsTo(studentDataPath);
                     return;   // closing program
                 }
                 Utility.PressAnyKey();
