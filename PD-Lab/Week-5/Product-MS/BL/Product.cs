@@ -28,6 +28,10 @@ namespace chlng1_new_pf
         {
             return $"{Name}, {Category}, {Price}, {Stock}, {MinStock}";
         }
+        public string FileStorage()
+        {
+            return $"{Name},{Category},{Price},{Stock},{MinStock}";
+        }
         public int SalesTax()
         {
             int salesTax = 0;
