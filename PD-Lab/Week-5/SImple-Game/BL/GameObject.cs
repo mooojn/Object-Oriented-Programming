@@ -47,17 +47,25 @@ namespace chlng_4_new_PD
             }
             else if (Direction == "Patrol")
             {
-                pos.X++;
-                Pos.Y++;
+                if (Pos.X < Premises.BottomLeft.X)
+                    Direction = "RightToLeft";
+                else if (Pos.X > Premises.BottomRight.X)
+                    Direction = "LeftToRight";
+                
+                if (Direction == "LeftToRight")
+                    Pos.X++;
+                else
+                    Pos.X--;
             }
             else if (Direction == "Projectile")
             {
-                pos.X+=2;
+                Pos.X += 5;
+                Pos.Y -= 5;
             }
             else if (Direction == "Diagnol")
             {
                 Pos.X++;
-                Pos.Y--;
+                Pos.Y++;
             }
         }
         public void Erase()
