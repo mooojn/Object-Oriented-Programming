@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -13,6 +14,40 @@ namespace chlng1_new_pf
         public static void AddProduct(Product Prod)
         {
             Products.Add(Prod);
+        }
+        public static void StoreProductsTo(string path)
+        {
+            StreamWriter F = new StreamWriter(path);
+            foreach (Product Prod in Products)
+            {
+                F.WriteLine(Prod.FileStorage());
+            }
+            F.Close();
+        }
+        public static void LoadProductsFrom(string path)
+        {
+            StreamReader F = null;
+            if (File.Exists(path))
+                F = new StreamReader(path);
+            
+            string record;
+            if (File.Exists(path))
+            {
+                while ((record = F.ReadLine()) != null)
+                {
+                    string[] data = record.Split(',');
+                    string name = data[0];
+                    string category = data[1];
+                    int price = int.Parse(data[2]);
+                    int stock = int.Parse(data[3]);
+                    int minstock = int.Parse(data[4]);
+                    
+                    Product P = new Product(name, category, price, stock, minstock);
+                    
+                    AddProduct(P);
+                }
+                F.Close();
+            }
         }
         public static void ViewProducts()
         {
