@@ -10,7 +10,8 @@ namespace chlg3
 {
     internal class AdminCrud
     {
-        public static bool Validate(string pass, string admin_pass)
+        public static string admin_pass = "admin";
+        public static bool Validate(string pass)
         {
             if (pass == admin_pass)
             {
