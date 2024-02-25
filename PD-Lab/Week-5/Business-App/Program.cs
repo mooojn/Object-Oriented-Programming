@@ -15,9 +15,6 @@ namespace chlg3
         static void Main(string[] args)
         {   
             UserCrud.LoadUsersFromFile();
-            
-            // admin password
-            string admin_pass = "admin";
 
             bool transactions_blocked = false; // for blocking transactions 
 
@@ -29,46 +26,37 @@ namespace chlg3
             {
                 Console.Clear(); // to clear the screen
                 string choice = MainUi.Menu();
-                
+
                 Console.Clear();
-                if (choice == "1")
+                switch (choice)
                 {
-                    string pass = UserUi.GetPass();
-
-                    allow_login_admin = AdminCrud.Validate(pass, admin_pass);
-                    
-                    if (allow_login_admin)
+                    case "1":
+                        string adminPass = UserUi.GetPass();
+                        allow_login_admin = AdminCrud.Validate(adminPass);
+                        if (allow_login_admin)
+                            goto endLoop;
+                        break;
+                    case "2":
+                        string userName = UserUi.GetName();
+                        string userPass = UserUi.GetPass();
+                        allow_login_user = UserCrud.SignIn(userName, userPass);
+                        if (allow_login_user)
+                            goto endLoop;
+                        break;
+                    case "3":
+                        string newName = UserUi.GetName();
+                        string newPass = UserUi.GetPass();
+                        UserCrud.SignUp(newName, newPass);
+                        break;
+                    case "4":
+                        UserCrud.StoreUsersDataToFile();
+                        return; // exit from program
+                    default:
+                        UtilUi.InvalidChoice();
                         break;
                 }
-                else if (choice == "2")
-                {
-                    // func checks if we need to allow to login
-                    // getting input
-                    string name = UserUi.GetName();
-                    string pass = UserUi.GetPass();
-
-                    allow_login_user = UserCrud.SignIn(name, pass);
-                    
-                    if (allow_login_user)
-                        break;
-                }
-                else if (choice == "3")
-                {
-                    // getting input
-                    string name = UserUi.GetName();
-                    string pass = UserUi.GetPass();
-
-                    // validating
-                    UserCrud.SignUp(name, pass);
-                }
-                else if (choice == "4")
-                {
-                    UserCrud.StoreUsersDataToFile();
-                    return; // exit from program
-                }
-                else
-                    UtilUi.InvalidChoice();
             }
+        endLoop:;
             if (allow_login_user)
             {
                 string user_choice = "";
@@ -80,59 +68,47 @@ namespace chlg3
 
                     Console.Clear();
                     User CurrentUser = UserCrud.Users[current_user_index];
-                    if (user_choice == "1")
+                    switch (user_choice)
                     {
-                        // displays the cash holdings of current-user
-                        
-                        CurrentUser.ShowCash();
-                        UtilUi.PressAnyKey();
+                        case "1":
+                            CurrentUser.ShowCash();
+                            UtilUi.PressAnyKey();
+                            break;
+                        case "2":
+                            if (!transactions_blocked)
+                            {
+                                int deposit_amount = UserUi.GetDepositAmount();
+                                bool deposit_status = CurrentUser.AddCash(deposit_amount);
+                                UtilUi.ShowMSG(deposit_status);
+                            }
+                            else
+                                UtilUi.Error("Transactions are Blocked");
+                            break;
+                        case "3":
+                            if (!transactions_blocked)
+                            {
+                                int withdraw_amount = UserUi.GetWithdrawAmount();
+                                bool withdraw_status = CurrentUser.WithdrawCash(withdraw_amount);
+                                UtilUi.ShowMSG(withdraw_status);
+                            }
+                            else
+                                UtilUi.Error("Transactions are Blocked");
+                            break;
+                        case "4":
+                            transactions_blocked = UtilCrud.BlockTransactions(transactions_blocked);
+                            break;
+                        case "5":
+                            UserCrud.DeleteUserFromIndex(current_user_index);
+                            goto logout;
+                        case "6":
+                            goto logout;
+                        default:
+                            // Handle other cases
+                            break;
                     }
-                    else if (user_choice == "2")
-                    {
-                        // used to deposit cash
-                        if (!transactions_blocked)  // not blocked calling the func 
-                        {
-                            // input
-                            int deposit_amount = UserUi.GetDepositAmount();
-                            // validation
-                            bool deposit_status = CurrentUser.AddCash(deposit_amount);
-
-                            UtilUi.ShowMSG(deposit_status);
-                        }
-                        else
-                            UtilUi.Error("Transactions are Blocked");
-                    }
-                    else if (user_choice == "3")
-                    {
-                        if (!transactions_blocked)    // not blocked calling the func
-                        {
-                            // input
-                            int withdraw_amount = UserUi.GetWithdrawAmount();
-
-                            // used to withdraw cash
-                            bool withdraw_status = CurrentUser.WithdrawCash(withdraw_amount);
-
-                            UtilUi.ShowMSG(withdraw_status);
-                        }
-                        else
-                            UtilUi.Error("Transactions are Blocked");
-                    }
-                    else if (user_choice == "4")
-                    {
-                        // func checks if we need to block or unblock
-                        transactions_blocked = UtilCrud.BlockTransactions(transactions_blocked);
-                    }
-                    else if (user_choice == "5")
-                    {
-                        // permenantly deletes the user from array
-                        UserCrud.DeleteUserFromIndex(current_user_index);
-                        goto logout;
-                    }
-                    else if (user_choice == "6")
-                        goto logout; // logging out
                 }
             }
-            else if (allow_login_admin)
+            if (allow_login_admin)
             {
                 string admin_choice = "";
                 while (true)
@@ -141,43 +117,42 @@ namespace chlg3
                     admin_choice = MainUi.admin_menu();
 
                     Console.Clear();
-                    if (admin_choice == "1")
+                    switch (admin_choice)
                     {
-                        string name = UserUi.GetName();
-                        string pass = UserUi.GetPass();
-
-                        UserCrud.SignUp(name, pass);
-                    }
-                    else if (admin_choice == "2")
-                    {
-                        UserCrud.ViewAllUsers();
-                        UtilUi.PressAnyKey();
-                    }
-                    else if (admin_choice == "3")
-                    {
-                        UserCrud.ViewAllUsers();
-                        // getting the index to change
-                        int index = AdminUi.GetIndex();
-                        // getting the new name
-                        string name = UserUi.GetName();
-                        // changing the name
-                        UserCrud.Users[index].user_names = name;
-
-                        UtilUi.Success("Changed successfully...");
-                    }
-                    else if (admin_choice == "4")
-                    {
-                        UserCrud.ViewAllUsers();
-                        // getting the index to remove
-                        int index = AdminUi.GetIndex();
-                        // removing the user from that index
-                        UserCrud.DeleteUserFromIndex(index);
-                        
-                        UtilUi.Success("Removed successfully...");
-                    }
-                    else if (admin_choice == "5")
-                    {
-                        goto logout;
+                        case "1":
+                            string name = UserUi.GetName();
+                            string pass = UserUi.GetPass();
+                            UserCrud.SignUp(name, pass);
+                            break;
+                        case "2":
+                            UserCrud.ViewAllUsers();
+                            UtilUi.PressAnyKey();
+                            break;
+                        case "3":
+                        case "4":
+                            UserCrud.ViewAllUsers();
+                            int index = AdminUi.GetIndex();
+                            if (UserCrud.ValidateIndex(index))  // if index is valid then proceed
+                            {
+                                UtilUi.Error("Invalid index...");
+                                continue;
+                            }
+                            else if (admin_choice == "3")
+                            {
+                                string newName = UserUi.GetName();
+                                UserCrud.Users[index].user_names = newName;
+                                UtilUi.Success("Changed successfully...");
+                            }
+                            else
+                            {
+                                UserCrud.DeleteUserFromIndex(index);
+                            }
+                            break;
+                        case "5":
+                            goto logout;
+                        default:
+                            // Handle other cases
+                            break;
                     }
                 }
             }
