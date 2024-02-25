@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
@@ -128,6 +129,10 @@ namespace chlg3
             Users.RemoveAt(index_to_remove);
             
             UtilUi.Success("Account has been removed...");
+        }
+        public static bool ValidateIndex(int indexToValidate)
+        {
+            return indexToValidate + 1 > Users.Count;
         }
     }
 }
