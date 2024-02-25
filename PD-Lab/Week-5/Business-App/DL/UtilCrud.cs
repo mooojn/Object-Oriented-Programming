@@ -11,11 +11,11 @@ namespace chlg3
     {
         public static bool BlockTransactions(bool transactions_blocked)
         {
-            UtilUi.process();
+            UtilUi.Process();
 
             string status = transactions_blocked ? "Un" : "";  // ternary operator to check if we need to add Un or not
 
-            UtilUi.success($"Your transactions have been successfully {status}blocked");
+            UtilUi.Success($"Your transactions have been successfully {status}blocked");
 
             return !transactions_blocked;  // reversing the value   :}
         }

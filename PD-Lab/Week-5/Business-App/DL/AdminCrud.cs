@@ -14,10 +14,10 @@ namespace chlg3
         {
             if (pass == admin_pass)
             {
-                UtilUi.success("You are signed in as admin...");
+                UtilUi.Success("You are signed in as admin...");
                 return true;
             }
-            UtilUi.error("Incorrect Password");
+            UtilUi.Error("Incorrect Password");
             return false;
         }
     }
