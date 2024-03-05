@@ -11,11 +11,11 @@ namespace chlng4_new.DL
     internal class DegreeCrud
     {
         public static List<Degree> Degrees = new List<Degree>();
-        public static List<Degree> LoadRegDeg(string path, string id)
+        public static List<Degree> LoadPreferences(string path, string id)
         {
             List<Degree> Degree = new List<Degree>();
 
-            string query = $"select * from RegisteredDegrees where degreeId = '{id}'";
+            string query = $"select * from StudentDegreePreferences where degreeName = '{id}'";
             SqlConnection Conn = new SqlConnection(path);
 
             Conn.Open();
@@ -25,7 +25,7 @@ namespace chlng4_new.DL
 
             while (reader.Read())
             {
-                string degreeCode = reader["degreeId"].ToString();
+                string degreeCode = reader["degreeName"].ToString();
 
                 
                 Degree.Add(IsDegreeExist(degreeCode));
@@ -52,19 +52,41 @@ namespace chlng4_new.DL
                 string name = reader["title"].ToString();
                 float duration = Convert.ToInt64(reader["duration"]);
                 int seats = Convert.ToInt32(reader["seats"].ToString());
-                string subjectCode = reader["subjectId"].ToString();
 
                 List<Subject> Sub = new List<Subject>();
 
-                Subject S = SubjectCrud.IsSubjectExist(subjectCode);
+                int idOfDegree = Convert.ToInt32(reader["id"]);
 
-                Sub.Add(S);
+                Sub = LoadSubjectsForDegree(path, idOfDegree);
 
                 Degree degree = new Degree(name, duration, seats, Sub);
 
                 Degrees.Add(degree);
             }
             Conn.Close();
+        }
+        public static List<Subject> LoadSubjectsForDegree(string path, int id)
+        {
+            List<Subject> subjects = new List<Subject>();
+            SqlConnection con = new SqlConnection(path);
+            con.Open();
+            
+            string query = $"select * from DegreeSubjects where degreeId = {id}";
+            
+            SqlCommand cmd = new SqlCommand(query, con);
+
+            SqlDataReader reader = cmd.ExecuteReader();
+            while (reader.Read())
+            {
+                string subjectCode = reader["subjectCode"].ToString();
+
+                Subject S = SubjectCrud.IsSubjectExist(subjectCode);
+                
+                subjects.Add(S);
+            }
+            con.Close();
+
+            return subjects;
         }
         public static void AddDegree(Degree NewDegree)
         {
