@@ -17,7 +17,7 @@ namespace chlg3
         public static void StoreUsersDataToFile()
         {
             StreamWriter F = new StreamWriter(Program.file_path);   // obj of file
-
+            
             // storing relevant information
             F.WriteLine("Name,Password,Cash");
             foreach (User Usr in Users)

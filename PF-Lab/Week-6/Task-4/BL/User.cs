@@ -9,7 +9,6 @@ namespace _4
     internal class User
     {
         private string Name;
-
         private List<Post> Posts;
         private List<User> Followers;
         private List<User> Following;

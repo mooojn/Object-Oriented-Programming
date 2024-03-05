@@ -14,7 +14,7 @@ namespace chlg3
         public static int current_user_index = 0;  // index of the logged-in user
         static void Main(string[] args)
         {   
-            UserCrud.LoadUsersFromFile();
+            UserCrud.LoadUsersFromFile(file_path);
 
             bool transactions_blocked = false; // for blocking transactions 
 

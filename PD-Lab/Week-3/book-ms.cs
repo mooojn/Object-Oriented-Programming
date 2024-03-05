@@ -15,13 +15,14 @@ namespace Task_4
         {
             // stuct
             List<Book> Books = new List<Book>();
-            
+        
             // for option
             string option;
             
             // main program loop
             while (true)
             {
+                
                 Console.Clear();
                 option = menu();
                 if(option == "1")
@@ -32,6 +33,7 @@ namespace Task_4
                 else if (option == "2")
                 {
                     Console.WriteLine("Title\tAuthor\tYear\tPrice\tStock");
+                    // {book1, book2}
                     foreach (Book book in Books)
                     {
                         book.BookDetails();
