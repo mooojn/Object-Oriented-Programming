@@ -31,6 +31,17 @@ namespace chlng4_new
 
             Merit = CalculateMerit();
         }
+        public Student(string name, int age, double fsc, double ecat, List<Degree> Pref, Degree Regd_Degree)
+        {
+            Name = name;
+            Age = age;
+            FscMarks = fsc;
+            EcatMarks = ecat;
+            Preferences = Pref;
+            RegisteredDegree = Regd_Degree;
+
+            Merit = CalculateMerit();
+        }
         public Student(string name, int age, double fsc, double ecat, List<Subject> subjects)
         {
             Name = name;
