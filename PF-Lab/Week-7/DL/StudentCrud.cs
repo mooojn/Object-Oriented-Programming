@@ -32,13 +32,14 @@ namespace chlng4_new
                 int age = Convert.ToInt32(reader["age"]);
                 int fsc = Convert.ToInt32(reader["fsc"]);
                 int ecat = Convert.ToInt32(reader["ecat"]);
-                string degreeId = reader["degreeID"].ToString();
+                string degreeName = reader["degreeName"].ToString();
 
 
-                List<Degree> Degree = DegreeCrud.LoadRegDeg(path, degreeId);
+                List<Degree> Pref = DegreeCrud.LoadPreferences(path, degreeName);
                 
+                Degree RegisteredDegree = DegreeCrud.IsDegreeExist(degreeName);
                 
-                Student Std = new Student(name, age, fsc, ecat, Degree);
+                Student Std = new Student(name, age, fsc, ecat, Pref, RegisteredDegree);
 
                 Students.Add(Std);
             }
