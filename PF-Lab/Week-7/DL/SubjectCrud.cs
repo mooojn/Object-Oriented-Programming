@@ -71,14 +71,13 @@ namespace chlng4_new.DL
 
             while (data.Read())
             {
-                string code = Convert.ToString(data.GetString(1));
-                int creditHours = Convert.ToInt32(data.GetInt32(2)); ;
-                string type = Convert.ToString(data.GetString(3));
-                int fees = Convert.ToInt32(data.GetInt32(4));
+                string code = Convert.ToString(data["code"]);
+                int creditHours = Convert.ToInt32(data["creditHours"]); ;
+                string type = Convert.ToString(data["type"]);
+                int fees = Convert.ToInt32(data["fees"]);
 
                 Subject S = new Subject(code, creditHours, type, fees);
                
-
                 Subjects.Add(S);
             }
             Connection.Close();
