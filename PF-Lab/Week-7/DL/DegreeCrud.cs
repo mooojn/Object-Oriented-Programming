@@ -11,6 +11,7 @@ namespace chlng4_new.DL
     internal class DegreeCrud
     {
         public static List<Degree> Degrees = new List<Degree>();
+        public static int index = 0;
         public static List<Degree> LoadPreferences(string path, string id)
         {
             List<Degree> Degree = new List<Degree>();
@@ -62,8 +63,23 @@ namespace chlng4_new.DL
                 Degree degree = new Degree(name, duration, seats, Sub);
 
                 Degrees.Add(degree);
+                index++;
             }
             Conn.Close();
+        }
+        public static void StoreDegreeDB(string path)
+        {
+            SqlConnection con = new SqlConnection(path);
+
+            con.Open();
+            for (int i = index; i < Degrees.Count; i++)
+            {
+                Degree D = Degrees[i];
+                string query = $"Insert into Degrees values('{D.Title}',{D.Duration},{D.Seats})";
+                SqlCommand cmd = new SqlCommand(query, con);
+                cmd.ExecuteNonQuery();
+            }
+            con.Close();
         }
         public static List<Subject> LoadSubjectsForDegree(string path, int id)
         {
