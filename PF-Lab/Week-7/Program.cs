@@ -76,9 +76,9 @@ namespace chlng4_new
                 else if (option == "8")
                 {
                     // save to SQL database
-                    //SubjectCrud.StoreSubjectsTo(path);
-                    //DegreeCrud.StoreDegreesTo(path);
-                    //StudentCrud.StoreStudentsTo(path);
+                    SubjectCrud.StoreSubjectsTo(path);
+                    DegreeCrud.StoreDegreeDB(path);
+                    StudentCrud.StoreStudentDB(path);
                     return;   // closing program
                 }
                 Utility.PressAnyKey();
