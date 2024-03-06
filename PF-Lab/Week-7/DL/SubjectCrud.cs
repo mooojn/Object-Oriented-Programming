@@ -11,6 +11,7 @@ namespace chlng4_new.DL
     internal class SubjectCrud
     {
         public static List<Subject> Subjects = new List<Subject>();
+        public static int index = 0;
         
         
         public static List<Subject> LoadRegSub(string path, int id)
@@ -42,21 +43,6 @@ namespace chlng4_new.DL
             Subjects.Add(NewSubject);
         }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
         public static void LoadSubjectsFrom(string path)
         {
             SqlConnection Connection = new SqlConnection(path);
@@ -79,6 +65,7 @@ namespace chlng4_new.DL
                 Subject S = new Subject(code, creditHours, type, fees);
                
                 Subjects.Add(S);
+                index++;
             }
             Connection.Close();
         }
@@ -86,11 +73,9 @@ namespace chlng4_new.DL
         {
             SqlConnection Connection = new SqlConnection(path);
             Connection.Open();
-            Console.WriteLine(Subjects.Count);
-            Console.ReadKey();
-
-            foreach (Subject S in Subjects)
+            for (int i = index; i < Subjects.Count; i++)
             {
+                Subject S = Subjects[i];
                 string query = $"insert into Subjects values ('{S.Code}',{S.CreditHours},'{S.Type}',{S.Fees})";
                 SqlCommand Command = new SqlCommand (query, Connection);
                 Command.ExecuteNonQuery();                
