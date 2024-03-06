@@ -14,6 +14,7 @@ namespace chlng4_new
     internal class StudentCrud
     {
         public static List<Student> Students = new List<Student>();
+        public static int index = 0;
 
 
         public static void LoadStudent(string path)
@@ -42,7 +43,22 @@ namespace chlng4_new
                 Student Std = new Student(name, age, fsc, ecat, Pref, RegisteredDegree);
 
                 Students.Add(Std);
+                index++;
             }
+        }
+        public static void StoreStudentDB(string path)
+        {
+            SqlConnection con = new SqlConnection(path);
+
+            con.Open();
+            for(int i = index; i < Students.Count; i++)
+            {
+                Student S = Students[i];
+                string query = $"Insert into Students values('{S.Name}', {S.Age}, {S.EcatMarks}, {S.FscMarks}, '{S.RegisteredDegree.Title}')";
+                SqlCommand cmd = new SqlCommand(query, con);
+                cmd.ExecuteNonQuery();
+            }
+            con.Close();
         }
         // DB xtras
         public static void AddStudentDB(string path)
