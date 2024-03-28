@@ -48,6 +48,14 @@ namespace ConsoleApp3
         {
             cards = cards.OrderBy(c => c.getSuit()).ToList();
         }
-
+        public string viewCards()
+        {
+            string res = "";
+            foreach (Card c in cards)
+            {
+                res += c.toString() + "\n";
+            }
+            return res;
+        }
     }
 }

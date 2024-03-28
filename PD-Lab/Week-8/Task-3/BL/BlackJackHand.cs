@@ -19,11 +19,12 @@ namespace ConsoleApp3
                 }
                 else if (cardValue == 1) {
                     ace = true;
+                    cardValue = 1;      // as ace will be 1 or 11
                 }
                 value += cardValue;
             }
-            if (ace && value + 11 <= 21) {
-                value += 11;
+            if (ace && value + 10 <= 21) {
+                value += 10;
             }
             return value;
         }

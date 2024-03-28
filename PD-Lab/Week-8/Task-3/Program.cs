@@ -37,11 +37,16 @@ namespace ConsoleApp3
                 Console.WriteLine("Player Wins!!!");
                 goto end;
             }
+            if (getHandValue(dealer) == 21)
+            {
+                Console.WriteLine("Dealer Wins!!!");
+                goto end;
+            }
             while (true)
             {
-                Console.WriteLine($"Dealer Card Value: {dealerCardToShow.getValue()}");
+                Console.WriteLine($"Dealer Card: {dealerCardToShow.toString()}");
                 Console.WriteLine("Player Turn");
-                Console.WriteLine($"Current Hand Value: {getHandValue(player)}");
+                Console.WriteLine($"Current Hand:\n{player.viewCards()}");
 
                 int choice = getInput();
 
@@ -64,7 +69,7 @@ namespace ConsoleApp3
             while (true)
             {
                 Console.WriteLine("Dealer Turn");
-                Console.WriteLine($"Current Hand Value: {getHandValue(dealer)}");
+                Console.WriteLine($"Current Hand:\n{dealer.viewCards()}");
 
                 if (getHandValue(dealer) < 17)
                 {
